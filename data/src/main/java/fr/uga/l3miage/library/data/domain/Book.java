@@ -1,21 +1,40 @@
 package fr.uga.l3miage.library.data.domain;
 
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = "all-books", query = "from Book b order by b.title"),
+        @NamedQuery(name = "find-books-by-title", query = "from Book where title like ?1"),
+        @NamedQuery(name = "find-books-by-author-and-title", query = "select a.books from Book b join b.authors a where a.id = ?1 and b.title like ?2"),
+        @NamedQuery(name = "find-books-by-authors-name", query = "from Book b join b.authors a where a.fullName like ?1"),
+        @NamedQuery(name = "find-books-by-several-authors", query = "from Book b where size(b.authors) > ?1")
+})
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
     private long isbn;
+
     private String publisher;
+
+    @Column(nullable = false)
     private short year;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private Language language;
 
-    @Transient
+    @ManyToMany(mappedBy = "books")
     private Set<Author> authors;
 
     public Long getId() {
