@@ -4,6 +4,11 @@ import fr.uga.l3miage.library.data.domain.Borrow;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import java.text.SimpleDateFormat ;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar ;
+import java.util.Date ;
 
 import java.util.List;
 
@@ -46,7 +51,11 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public List<Borrow> findInProgressByUser(String userId) {
         // TODO
-        return null;
+        String jpql = "select b from Borrow b where b.borrower.id = ?1 and b.finished = false";
+        List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
+                .setParameter(1, userId)
+                .getResultList();
+        return res;
     }
 
     /**
@@ -57,7 +66,11 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public int countBorrowedBooksByUser(String userId) {
         // TODO
-        return 0;
+        String jpql = "select b from Borrow b where b.borrower.id = ?1"; // requête équivalente: "select b from Borrow b join b.borrower u where u.id = ?1";
+        List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
+                .setParameter(1, userId)
+                .getResultList();
+        return res.size();
     }
 
     /**
@@ -68,9 +81,14 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public int countCurrentBorrowedBooksByUser(String userId) {
         // TODO
-        return 0;
+        String jpql = "select bs from Borrow bw join bw.books bs where bw.borrower.id = ?1 and bw.finished = false";
+        List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
+                .setParameter(1, userId)
+                .getResultList();
+        return res.size();
     }
 
+    // On choisit ici de trié du plus grand retard au plus petit
     /**
      * Recherche tous les emprunt en retard trié
      *
@@ -78,7 +96,12 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public List<Borrow> foundAllLateBorrow() {
         // TODO
-        return null;
+        Date d = Date.from(ZonedDateTime.now().toInstant());
+        String jpql = "select b from Borrow b where b.requestedReturn < ?1 order by b.requestedReturn";
+        List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
+                .setParameter(1, d)
+                .getResultList();
+        return res;
     }
 
     /**
@@ -89,7 +112,13 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public List<Borrow> findAllBorrowThatWillLateWithin(int days) {
         // TODO
-        return null;
+        // creating the present date in java
+        Date d = Date.from(ZonedDateTime.now().plus(days, ChronoUnit.DAYS).toInstant());
+        String jpql = "select b from Borrow b where b.requestedReturn < ?1"; // requête équivalente: "select b from Borrow b join b.borrower u where u.id = ?1";
+        List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
+                .setParameter(1, d)
+                .getResultList();
+        return res;
     }
 
 }

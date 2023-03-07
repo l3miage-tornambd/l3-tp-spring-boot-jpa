@@ -1,14 +1,33 @@
 package fr.uga.l3miage.library.data.domain;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.lang.NonNull;
+
 import java.util.Date;
 import java.util.Objects;
 
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Entity
+@DiscriminatorColumn(name = "person_type")
 public abstract class Person {
 
+    @NonNull
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+
+    @Enumerated(EnumType.ORDINAL)
     private Gender gender;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private Date birth;
 
     public enum Gender {

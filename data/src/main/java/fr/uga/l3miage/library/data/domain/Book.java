@@ -8,9 +8,9 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = "all-books", query = "from Book b order by b.title"),
-        @NamedQuery(name = "find-books-by-title", query = "from Book where title like ?1"),
-        @NamedQuery(name = "find-books-by-author-and-title", query = "select a.books from Book b join b.authors a where a.id = ?1 and b.title like ?2"),
-        @NamedQuery(name = "find-books-by-authors-name", query = "from Book b join b.authors a where a.fullName like ?1"),
+        @NamedQuery(name = "find-books-by-title", query = "select b from Book b where lower(b.title) like lower(concat('%',?1,'%'))"),
+        @NamedQuery(name = "find-books-by-author-and-title", query = "select b from Author a join a.books b where a.id = ?1 and lower(b.title) like lower(concat('%',?2,'%')) order by b.title"),
+        @NamedQuery(name = "find-books-by-authors-name", query = "select b from Book b join b.authors a where lower(a.fullName) like lower(concat('%',?1,'%'))"),
         @NamedQuery(name = "find-books-by-several-authors", query = "from Book b where size(b.authors) > ?1")
 })
 @Entity
@@ -27,7 +27,7 @@ public class Book {
 
     private String publisher;
 
-    @Column(nullable = false)
+    @Column(name = "releasedate", nullable = false)
     private short year;
 
     @Enumerated(EnumType.ORDINAL)

@@ -1,10 +1,19 @@
 package fr.uga.l3miage.library.data.domain;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 import java.util.Date;
 import java.util.Objects;
 
 // Attention le mot 'user' est reservé
+
+// @Entity Si on lui redit que c'est une entité alors qu'on est dans la strat single table, ça compile sale
+
+@Entity
+@DiscriminatorValue("customer")
 public class User extends Person {
+
     private Date registered;
     private float lateRatio;
 

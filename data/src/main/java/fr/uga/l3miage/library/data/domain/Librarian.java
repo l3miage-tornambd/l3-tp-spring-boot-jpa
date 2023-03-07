@@ -1,9 +1,16 @@
 package fr.uga.l3miage.library.data.domain;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@DiscriminatorValue("libra")
 public class Librarian extends Person {
 
+
+    @ManyToOne
+    @OneToMany(mappedBy = "manager")
     private Librarian manager;
 
     public Librarian getManager() {

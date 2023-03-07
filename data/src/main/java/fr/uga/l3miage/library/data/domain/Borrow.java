@@ -1,15 +1,29 @@
 package fr.uga.l3miage.library.data.domain;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Borrow {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+
+    @ManyToMany
     private List<Book> books;
+
     private Date start;
     private Date requestedReturn;
+
+    @ManyToOne
     private User borrower;
+
+    @OneToOne
     private Librarian librarian;
     private boolean finished;
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.time.LocalDate;
 
 @Repository
 public class UserRepository implements CRUDRepository<String, User> {
@@ -45,7 +46,16 @@ public class UserRepository implements CRUDRepository<String, User> {
      */
     public List<User> findAllOlderThan(int age) {
         // TODO
-        return null;
+        int y = LocalDate.now().getYear();
+
+        String jpql = "select u from User u where ?1 - year(u.birth) > ?2";
+
+        List<User> res = entityManager.createQuery(jpql, User.class)
+                .setParameter(1, y)
+                .setParameter(2, age)
+                .getResultList();
+
+        return res;
     }
 
 }
