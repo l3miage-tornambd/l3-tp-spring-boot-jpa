@@ -7,7 +7,6 @@ import java.util.Collection;
 
 public interface BookService extends BaseService<Book, Long> {
 
-
     /**
      * Save a book by adding it to an author. Then adds the book to the author, thus implementing the bidirectional many-to-many association
      *

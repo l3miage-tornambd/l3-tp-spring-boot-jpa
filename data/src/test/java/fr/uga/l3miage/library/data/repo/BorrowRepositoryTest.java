@@ -82,8 +82,6 @@ class BorrowRepositoryTest extends Base {
     @Test
     void countCurrentBorrowedBooksByUser() {
 
-        // TODO
-
         Borrow inProgress = Fixtures.newBorrow(u1, l1, b1, b2);
         Borrow finished = Fixtures.newBorrow(u1, l1, b3);
         finished.setRequestedReturn(new Date());
@@ -99,8 +97,6 @@ class BorrowRepositoryTest extends Base {
 
     @Test
     void countBorrowedBooksByUser() {
-
-        // TODO
         Borrow b11 = Fixtures.newBorrow(u1, l1, b1, b2, b3);
         Borrow b12 = Fixtures.newBorrow(u1, l1, b1);
         Borrow b13 = Fixtures.newBorrow(u1, l1, b1, b2);
@@ -123,7 +119,6 @@ class BorrowRepositoryTest extends Base {
 
     @Test
     void foundAllLateBorrow() {
-        // TODO
         Borrow lateSince12Days = Fixtures.newBorrow(u1, l1, b1);
         lateSince12Days.setRequestedReturn(Date.from(ZonedDateTime.now().minus(12, ChronoUnit.DAYS).toInstant()));
         Borrow lateSince4Days = Fixtures.newBorrow(u1, l1, b2);

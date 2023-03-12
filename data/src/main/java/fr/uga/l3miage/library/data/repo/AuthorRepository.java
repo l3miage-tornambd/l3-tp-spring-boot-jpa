@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class AuthorRepository implements CRUDRepository<Long, Author> {
@@ -43,7 +42,6 @@ public class AuthorRepository implements CRUDRepository<Long, Author> {
      */
     @Override
     public List<Author> all() {
-
         String jpql = "from Author order by fullName";
         List<Author> res = entityManager.createQuery(jpql, Author.class).getResultList();
         return res;
@@ -69,9 +67,9 @@ public class AuthorRepository implements CRUDRepository<Long, Author> {
      * @return true si l'auteur partage
      */
     public boolean checkAuthorByIdHavingCoAuthoredBooks(long authorId) {
-
-        String jpql = "select a from Author a join a.books b join b.authors ba where a.id = ?1 and size(ba) > 1";
-
+        //2 versions qui marchent:
+        //String jpql = "select a from Author a join a.books b join b.authors ba where a.id = ?1 and size(ba) > 1";
+        String jpql = "select b from Book b join b.authors a where a.id = ?1 and size(a) > 1 ";
         List<Author> authors = entityManager.createQuery(jpql, Author.class)
                 .setParameter(1, authorId).getResultList();
        return authors.size() > 0;

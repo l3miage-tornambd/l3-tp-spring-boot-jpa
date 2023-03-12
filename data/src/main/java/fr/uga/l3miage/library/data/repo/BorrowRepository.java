@@ -50,7 +50,6 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      * @return la liste des emprunts en cours
      */
     public List<Borrow> findInProgressByUser(String userId) {
-        // TODO
         String jpql = "select b from Borrow b where b.borrower.id = ?1 and b.finished = false";
         List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
                 .setParameter(1, userId)
@@ -65,7 +64,6 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      * @return le nombre de livre
      */
     public int countBorrowedBooksByUser(String userId) {
-        // TODO
         String jpql = "select b from Borrow b where b.borrower.id = ?1"; // requête équivalente: "select b from Borrow b join b.borrower u where u.id = ?1";
         List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
                 .setParameter(1, userId)
@@ -80,7 +78,6 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      * @return le nombre de livre
      */
     public int countCurrentBorrowedBooksByUser(String userId) {
-        // TODO
         String jpql = "select bs from Borrow bw join bw.books bs where bw.borrower.id = ?1 and bw.finished = false";
         List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
                 .setParameter(1, userId)
@@ -95,7 +92,6 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      * @return la liste des emprunt en retard
      */
     public List<Borrow> foundAllLateBorrow() {
-        // TODO
         Date d = Date.from(ZonedDateTime.now().toInstant());
         String jpql = "select b from Borrow b where b.requestedReturn < ?1 order by b.requestedReturn";
         List<Borrow> res = entityManager.createQuery(jpql, Borrow.class)
@@ -111,7 +107,6 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      * @return les emprunt qui sont bientôt en retard
      */
     public List<Borrow> findAllBorrowThatWillLateWithin(int days) {
-        // TODO
         // creating the present date in java
         Date d = Date.from(ZonedDateTime.now().plus(days, ChronoUnit.DAYS).toInstant());
         String jpql = "select b from Borrow b where b.requestedReturn < ?1"; // requête équivalente: "select b from Borrow b join b.borrower u where u.id = ?1";

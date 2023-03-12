@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements BookService  {
 
     private final AuthorService authorService;
     private final BookRepository bookRepository;

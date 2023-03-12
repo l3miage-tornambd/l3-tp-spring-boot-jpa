@@ -13,11 +13,14 @@ public class Borrow {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-
     @ManyToMany
+    @Column(nullable = false)
     private List<Book> books;
 
+    @Column(nullable = false)
     private Date start;
+
+    @Column(nullable = false)
     private Date requestedReturn;
 
     @ManyToOne
@@ -25,6 +28,8 @@ public class Borrow {
 
     @OneToOne
     private Librarian librarian;
+
+    @Column(nullable = false)
     private boolean finished;
 
     public Long getId() {

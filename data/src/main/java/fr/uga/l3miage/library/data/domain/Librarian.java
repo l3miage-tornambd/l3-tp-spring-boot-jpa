@@ -8,9 +8,7 @@ import java.util.Objects;
 @DiscriminatorValue("libra")
 public class Librarian extends Person {
 
-
-    @ManyToOne
-    @OneToMany(mappedBy = "manager")
+    @ManyToOne()
     private Librarian manager;
 
     public Librarian getManager() {

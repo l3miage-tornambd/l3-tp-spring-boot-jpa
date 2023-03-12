@@ -13,6 +13,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(nullable = false)
     private String fullName;
 
     @ManyToMany()

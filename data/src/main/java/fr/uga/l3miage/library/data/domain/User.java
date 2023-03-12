@@ -1,5 +1,6 @@
 package fr.uga.l3miage.library.data.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -15,6 +16,7 @@ import java.util.Objects;
 public class User extends Person {
 
     private Date registered;
+
     private float lateRatio;
 
     public Date getRegistered() {

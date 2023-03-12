@@ -1,6 +1,8 @@
 package fr.uga.l3miage.library.data.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -23,10 +25,14 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
+    @Min(value = 1000000000L)
+    @Max(value = 9999999999999L)
     private long isbn;
 
     private String publisher;
 
+    @Min(value = -9999)
+    @Max(value = 9999)
     @Column(name = "releasedate", nullable = false)
     private short year;
 
@@ -35,6 +41,7 @@ public class Book {
     private Language language;
 
     @ManyToMany(mappedBy = "books")
+    @Column(nullable = false)
     private Set<Author> authors;
 
     public Long getId() {

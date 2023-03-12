@@ -19,6 +19,7 @@ public abstract class Person {
     private String id;
 
     @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private Gender gender;
 
     @Column(nullable = false)
